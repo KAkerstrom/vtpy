@@ -1,6 +1,8 @@
 import pyodbc
 
 class Tag:
+    """A class to represent a VTScada tag."""
+
     id_col = r'Export Info - leave blank for new records'
     _column_names = {}
 
@@ -133,6 +135,8 @@ class Tag:
 
 
 class DBConnection:
+    """A class that encapsulates a connection to a VTScada tag export database."""
+
     def __init__(self, file : str):
         """DBConnection constructor.
         Connects to the database automatically when instantiated.
