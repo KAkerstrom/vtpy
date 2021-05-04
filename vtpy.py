@@ -89,6 +89,9 @@ class Tag:
         list
             The columns for this tag type, in database order."""
         return Tag._column_names[self.tag_type]
+
+    def shortname(self):
+        return self.get("Name").split('\\')[-1]
         
 
     @staticmethod
@@ -131,6 +134,9 @@ class Tag:
             else:
                 tags_by_type[tag.tag_type] = [tag]
         return tags_by_type
+
+    def __str__(self):
+        return '\t'.join(self.values_as_list())
 
 
 
