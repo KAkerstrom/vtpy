@@ -136,7 +136,8 @@ class Tag:
         return tags_by_type
 
     def __str__(self):
-        return '\t'.join(self.values_as_list())
+        vals = [v if v != None else '' for v in self.values_as_list()]
+        return '\t'.join(vals)
 
 
 
