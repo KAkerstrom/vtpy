@@ -202,12 +202,6 @@ class DBConnection:
         remove_id_info : bool
             If True, sets the 'Export Info', 'AuditName', and 'Original Shortname' values to empty strings.
             Normally required when adding new tags to a database. (default is True)
-            
-
-        Returns
-        ----------
-        dict
-            A dictionary of { tag_type: [Tag] }
         """
         tags_by_type = Tag.separate_tags_by_type(tag_list)
 
