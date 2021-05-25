@@ -1,4 +1,4 @@
-import pyodbc
+import pyodbc, glob
 
 class Tag:
     """A class to represent a VTScada tag."""
@@ -54,10 +54,10 @@ class Tag:
         Returns
         ----------
         str
-            The value for the given column.
+            The value for the given column, or None if the column is not found.
         """
 
-        return self.value_dict[column]
+        return self.value_dict[column] if column in self.value_dict.keys() else None
 
     def values_as_list(self) -> list:
         """Gets the values of the tag as a list, in the order of the columns in the database.
@@ -74,12 +74,18 @@ class Tag:
 
     def remove_id_info(self):
         """Sets the 'Export Info', 'AuditName', and 'Original Shortname' values to empty strings.
-        Useful for copying tags, or importing tags to a different database."""
+        Useful for copying tags, or importing tags to a different database.
+
+        Returns
+        ----------
+        Tag
+            Returns the tag, for convenience."""
 
         id_properties = [Tag.id_col, "AuditName", "Original Shortname"]
         for prop in id_properties:
             if prop in self.value_dict.keys():
                 self.set(prop, '')
+        return self
 
     def columns(self) -> list:
         """Gets the columns for this tag's tag type, in database order.
@@ -303,3 +309,31 @@ class DBConnection:
         columns = self.table_columns[tag_type]
         return Tag(tag_type, columns, ['']*len(columns))
 
+
+def GetPages(app_path):
+    '''Gets the text for each page in the app.
+    Ideally, I would like to create a full api for dealing with page data,
+    but this will do for now.
+    
+    Parameters
+    ----------
+    app_path : str
+        The path to the app. ie: "C:\VTScada\ExampleWTP".
+        Or the App name on its own, if it's located in the default "C:\VTScada" directory. ie: "ExampleWTP"
+
+    Returns
+    ----------
+    dict
+        A dictionary with the page name as the key, and the page text as the value.
+    '''
+    if '\\' not in app_path and '/' not in app_path:
+        app_path = f'C:\\VTScada\\{app_path}'
+    app_path = app_path.rstrip('\\')
+    pages = glob.glob(f'{app_path}\\Pages\\*')
+
+    page_dict = {}
+    for page in pages:
+        page_name = page.split('\\')[-1].rstrip('.SRC')
+        with open(page) as p:
+            page_dict[page_name] = p.read()
+    return page_dict
