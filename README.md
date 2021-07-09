@@ -21,9 +21,9 @@ for tag in tags:
   print(tag) # outputs a tab-separated string that you could copy and paste into Access or Excel
   # then you can do whatever you like with that
 ```
-
 There's a bunch of other potentially useful functions in Tag and DBConnection too, so be sure to check that out.
- ----------------- 
+
+----------------- 
   
   
   
