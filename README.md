@@ -30,11 +30,11 @@ There's a bunch of other potentially useful functions in Tag and DBConnection to
   
 I've also added some helper functions you can import such as:
 
-```ParseIFixCSV``` which returns a list of dictionaries of {column_name: value}. Each list entry is a tag, and the dictionary is its attributes. Example attributes might be things like "TAG", "DESCRIPTION", "I/O DEVICE", etc (case-sensitive). This can be nice for helping to convert tags between Fix and VT, for example.
+```ParseIFixCSV``` which returns a list of dictionaries of ```{column_name: value}```. Each list entry is a tag, and the dictionary is its attributes. Example attributes might be things like "TAG", "DESCRIPTION", "I/O DEVICE", etc (case-sensitive). This can be nice for helping to convert tags between Fix and VT, for example.
 
-```GetPages``` which returns a dictionary of {page_name: page_contents_as_text} which, for example, I've found useful when converting widgets on a lot of pages. I was able to use this to get the text of each page, find-and-replace (very carefully!) the widget I wanted to change, then output to files which I then imported into VT (again, making sure to check each change as I imported).
+```GetPages``` which returns a dictionary of ```{page_name: page_contents_as_text}``` which, for example, I've found useful when converting widgets on a lot of pages. I was able to use this to get the text of each page, find-and-replace (very carefully!) the widget I wanted to change, then output to files which I then imported into VT (again, making sure to check each change as I imported).
 
-```GetTagValues``` which returns a dictionary of {tag_id: {tag_property: value}} (yes, a dict of dicts) which I've used to get the actual values for things like ReadAddress when the database only has an expression. If used right, this *should* give you access to the value that each expression is currently evaluated to.  
+```GetTagValues``` which returns a dictionary of ```{tag_id: {tag_property: value}}``` (yes, a dict of dicts) which I've used to get the actual values for things like ReadAddress when the database only has an expression. If used right, this *should* give you access to the value that each expression is currently evaluated to.  
 Annoyingly, the IDs don't line up one-to-one with those in the DB, so you'll need to use something like this to convert:  
 ```python3
 tag.get(Tag.id_col).split(',')[0] if ',' in tag.get(Tag.id_col) else tag.get(Tag.id_col)
